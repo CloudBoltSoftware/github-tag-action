@@ -121,15 +121,16 @@ export default async function main() {
 
     commits = await getCommits(previousTag.commit.sha, commitRef);
 
-    let bump = await analyzeCommits(
-      {
-        releaseRules: mappedReleaseRules
-          ? // analyzeCommits doesn't appreciate rules with a section /shrug
-            mappedReleaseRules.map(({ section, ...rest }) => ({ ...rest }))
-          : undefined,
-      },
-      { commits, logger: { log: console.info.bind(console) } }
-    );
+    let bump = defaultPreReleaseBump:
+      // await analyzeCommits(
+      // {
+        // releaseRules: mappedReleaseRules
+          // ? // analyzeCommits doesn't appreciate rules with a section /shrug
+            // mappedReleaseRules.map(({ section, ...rest }) => ({ ...rest }))
+          // : undefined,
+      // },
+      // { commits, logger: { log: console.info.bind(console) } }
+    // );
 
     // Determine if we should continue with tag creation based on main vs prerelease branch
     let shouldContinue = true;
@@ -157,10 +158,10 @@ export default async function main() {
     }
 
     // If somebody uses custom release rules on a prerelease branch they might create a 'preprepatch' bump.
-    const preReg = /^pre/;
-    if (isPrerelease && preReg.test(bump)) {
-      bump = bump.replace(preReg, '');
-    }
+    // const preReg = /^pre/;
+    // if (isPrerelease && preReg.test(bump)) {
+      // bump = bump.replace(preReg, '');
+    // }
 
     const releaseType: ReleaseType = isPrerelease
       ? `pre${bump}`
