@@ -121,7 +121,7 @@ export default async function main() {
 
     commits = await getCommits(previousTag.commit.sha, commitRef);
 
-    let bump = defaultPreReleaseBump:
+    let bump = 'prerelease';
       // await analyzeCommits(
       // {
         // releaseRules: mappedReleaseRules
@@ -158,14 +158,12 @@ export default async function main() {
     }
 
     // If somebody uses custom release rules on a prerelease branch they might create a 'preprepatch' bump.
-    // const preReg = /^pre/;
-    // if (isPrerelease && preReg.test(bump)) {
-      // bump = bump.replace(preReg, '');
-    // }
+    const preReg = /^pre/;
+    if (isPrerelease && preReg.test(bump)) {
+      bump = bump.replace(preReg, '');
+    }
 
-    const releaseType: ReleaseType = isPrerelease
-      ? `pre${bump}`
-      : bump || defaultBump;
+    const releaseType = 'prerelease' as ReleaseType;
     core.setOutput('release_type', releaseType);
 
     const incrementedVersion = inc(previousVersion, releaseType, identifier);
