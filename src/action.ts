@@ -163,7 +163,7 @@ export default async function main() {
       bump = bump.replace(preReg, '');
     }
 
-    const releaseType = 'prerelease' as ReleaseType;
+    const releaseType = 'pre' as ReleaseType;
     core.setOutput('release_type', releaseType);
 
     const incrementedVersion = inc(previousVersion, releaseType, identifier);
